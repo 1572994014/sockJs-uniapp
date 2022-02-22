@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<script
+  type="text/javascript"
+  src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js"
+></script>
+<script src="./js/sockjs.js"></script>
+<script src="./js/stomp.js"></script>
+<script src="./js/webstomp.js"></script>
+<script type="text/javascript">
+window.onload = () => {
+	let socket = new SockJS("http://localhost/stomp")
+	var client = webstomp.over(socket);
+	client.connect({}, function() {
+		client.subscribe("/topic/msg", function(message) {
+			// console.log(message)
+			uni.postMessage({
+				data: {
+					message
+				}
+			});
+		});
+
+	});
+}
+</script>
+</body>
+</html>
